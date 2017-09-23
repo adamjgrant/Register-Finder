@@ -1,6 +1,21 @@
+<link rel="stylesheet" href="http://cdn.everything.io/kickstart/3.x/css/kickstart.min.css" />
+<div class="wrapper">
+
+<br>
 <h1>Register calculation</h1>
-<div id="report">
+<table class="table" id="report">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Hole</th>
+      <th>These covers would work</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 </div>
+
 <style>
   #report { font-family: monospace; font-size: 16px; }
 </style>
@@ -8,7 +23,7 @@
 <script>
   var register_sizes_available,
       register_sizes_actual,
-      report = document.querySelector("#report");
+      report = document.querySelector("#report tbody");
 
   register_sizes_available = [
     {
@@ -100,14 +115,16 @@
       }
     });
 
-    var msg = `(${index + 1}) For ${actual_size.width}" x ${actual_size.height}": `;
-    if (!applicable_registers.length) { msg += "No sizes found." }
+    var msg = `<tr><td>${index + 1}</td><td>${actual_size.width}" x ${actual_size.height}"</td>`;
+    if (!applicable_registers.length) { msg += "<td>No sizes found.</td>" }
     else {
+      msg += "<td>";
       msg += applicable_registers.map(function(dimensions) {
         return `${dimensions.bezel_width}" x ${dimensions.bezel_height}"`
       }).join(", ");
+      msg += "</td>";
     }
-    msg += "<br>"
+    msg += "</tr>"
     report.innerHTML += msg
   });
 </script>
