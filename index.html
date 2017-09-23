@@ -1,0 +1,115 @@
+<h1>Register calculation</h1>
+<div id="report">
+</div>
+<style>
+  #report { font-family: monospace; font-size: 16px; }
+</style>
+
+<script>
+  var register_sizes_available,
+      register_sizes_actual,
+      report = document.querySelector("#report");
+
+  register_sizes_available = [
+    {
+      bezel_width: 13,
+      bezel_height: 5,
+      inlay_width: 12,
+      inlay_height: 3
+    },
+    {
+      bezel_width: 14,
+      bezel_height: 6,
+      inlay_width: 11,
+      inlay_height: 2
+    }
+  ]
+
+  register_sizes_actual = [
+    {
+      width: 10.125,
+      height: 4
+    },
+    {
+      width: 10.5,
+      height: 4.5
+    },
+    {
+      width: 12.25,
+      height: 4
+    },
+    {
+      width: 12.75,
+      height: 4.25
+    },
+    {
+      width: 14.33,
+      height: 4.5
+    },
+    {
+      width: 14.75,
+      height: 4.33
+    },
+    {
+      width: 14.75,
+      height: 4.33
+    },
+    {
+      width: 10,
+      height: 3.75
+    },
+    {
+      width: 14.33,
+      height: 3.75
+    },
+    {
+      width: 9.5,
+      height: 4.25
+    },
+    {
+      width: 10.125,
+      height: 4
+    },
+    {
+      width: 13,
+      height: 4.25
+    },
+    {
+      width: 14.75,
+      height: 4.33
+    },
+    {
+      width: 0,
+      height: 0
+    },
+  ]
+
+  register_sizes_actual.forEach(function(actual_size, index) {
+    // For an available size to be applicable, the bezel has to be more
+    // than the dimensions of the actual hole and the inlay has to be less.
+    var applicable_registers = [];
+
+    register_sizes_available.forEach(function(available_size) {
+      if (
+           available_size.bezel_width > actual_size.width &&
+           available_size.bezel_height > actual_size.height &&
+           available_size.inlay_width < actual_size.width &&
+           available_size.inlay_height < actual_size.height
+         ) {
+        applicable_registers.push(available_size);
+      }
+    });
+
+    var msg = `(${index + 1}) For ${actual_size.width}" x ${actual_size.height}": `;
+    if (!applicable_registers.length) { msg += "No sizes found." }
+    else {
+      msg += applicable_registers.map(function(dimensions) {
+        return `${dimensions.bezel_width}" x ${dimensions.bezel_height}"`
+      }).join(", ");
+    }
+    msg += "<br>"
+    report.innerHTML += msg
+  });
+</script>
+
+<script src="http://cdn.everything.io/live.js"></script>
